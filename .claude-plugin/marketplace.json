@@ -11,7 +11,7 @@
       "name": "pthalamy-skills",
       "source": "./",
       "description": "All skills in this repository, installed as one plugin.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Pierre Thalamy"
       },

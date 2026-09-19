@@ -12,7 +12,7 @@ Gemini CLI and a couple dozen others. Nothing here is tied to one vendor.
 
 | Skill | What it does |
 | ----- | ------------ |
-| [gedcom-maintainer](skills/gedcom-maintainer/SKILL.md) | Maintain GEDCOM family trees as an evidence-backed graph: sourced edits only, conflicts and hypotheses recorded in notes, structural validation after every change. |
+| [gedcom-maintainer](skills/gedcom-maintainer/SKILL.md) | Maintain GEDCOM family trees as an evidence-backed graph: sourced, QUAY-graded edits only, conflicts and hypotheses recorded in notes, Genealogical Proof Standard guidance, plus scripts to validate structure, links, dates and chronology, and to inspect and diff large files. |
 
 ## Install
 
