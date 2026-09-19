@@ -1,0 +1,20 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Python (validator / helper scripts)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Skill development artifacts (skill-creator eval workspaces, packaged skills)
+*-workspace/
+*.skill
+
+# Local Claude Code settings
+.claude/settings.local.json
