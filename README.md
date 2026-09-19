@@ -12,7 +12,7 @@ Gemini CLI and a couple dozen others. Nothing here is tied to one vendor.
 
 | Skill | What it does |
 | ----- | ------------ |
-| _none yet_ | Add the first one with `python3 scripts/new_skill.py <name>` |
+| [gedcom-maintainer](skills/gedcom-maintainer/SKILL.md) | Maintain GEDCOM family trees as an evidence-backed graph: sourced edits only, conflicts and hypotheses recorded in notes, structural validation after every change. |
 
 ## Install
 
