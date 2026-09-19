@@ -1,0 +1,13 @@
+{
+  "name": "pthalamy-skills",
+  "description": "Pierre Thalamy's personal collection of Agent Skills for Claude.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Pierre Thalamy",
+    "url": "https://github.com/pthalamy"
+  },
+  "homepage": "https://github.com/pthalamy/skills",
+  "repository": "https://github.com/pthalamy/skills",
+  "license": "MIT",
+  "keywords": ["skills", "agent-skills", "claude-code"]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "pthalamy-skills",
+  "owner": {
+    "name": "Pierre Thalamy",
+    "url": "https://github.com/pthalamy"
+  },
+  "description": "Pierre Thalamy's personal collection of Agent Skills for Claude.",
+  "plugins": [
+    {
+      "name": "pthalamy-skills",
+      "source": "./",
+      "description": "All skills in this repository, installed as one plugin.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Pierre Thalamy"
+      },
+      "homepage": "https://github.com/pthalamy/skills",
+      "repository": "https://github.com/pthalamy/skills",
+      "license": "MIT",
+      "keywords": ["skills", "agent-skills", "claude-code"]
+    }
+  ]
+}
