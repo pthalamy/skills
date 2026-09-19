@@ -1,7 +1,7 @@
 {
   "name": "pthalamy-skills",
-  "description": "Pierre Thalamy's personal collection of Agent Skills for Claude.",
-  "version": "0.1.0",
+  "description": "Pierre Thalamy's personal collection of Agent Skills, usable from Claude Code, Codex, Cursor, Copilot, Gemini CLI and other agents.",
+  "version": "0.2.0",
   "author": {
     "name": "Pierre Thalamy",
     "url": "https://github.com/pthalamy"

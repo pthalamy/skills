@@ -10,7 +10,10 @@ Checks, for each directory under ``skills/``:
 * ``description`` is present, non-empty and at most 1024 characters
   (the Agent Skills limit, comfortably inside Claude Code's 1536);
 * ``compatibility``, when present, is at most 500 characters;
-* the body is not empty and is warned about above 500 lines.
+* the body is not empty and is warned about above 500 lines;
+* frontmatter keys outside the Agent Skills specification produce a
+  portability warning (they are ignored by agents other than the one that
+  defines them; Claude Code's own fields are recognised and named).
 
 Also checks that ``.claude-plugin/marketplace.json`` and
 ``.claude-plugin/plugin.json`` are valid JSON with the required fields.
@@ -39,6 +42,15 @@ MAX_NAME = 64
 MAX_DESCRIPTION = 1024
 MAX_COMPATIBILITY = 500
 SOFT_MAX_BODY_LINES = 500
+
+# Fields defined by the Agent Skills specification (https://agentskills.io).
+SPEC_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
+# Fields Claude Code adds on top of the spec. Other agents ignore them.
+CLAUDE_CODE_FIELDS = {
+    "when_to_use", "argument-hint", "arguments", "disable-model-invocation",
+    "user-invocable", "disallowed-tools", "context", "agent", "background",
+    "model", "effort", "shell", "paths", "hooks",
+}
 
 
 class Report:
@@ -147,6 +159,14 @@ def validate_skill_dir(skill_dir: Path, report: Report) -> None:
     compatibility = meta.get("compatibility", "")
     if compatibility and len(compatibility) > MAX_COMPATIBILITY:
         report.error(skill_md, f"compatibility is {len(compatibility)} chars, max {MAX_COMPATIBILITY}")
+
+    for field in sorted(meta):
+        if field in SPEC_FIELDS:
+            continue
+        if field in CLAUDE_CODE_FIELDS:
+            report.warn(skill_md, f"'{field}' is a Claude Code only field; other agents ignore it")
+        else:
+            report.warn(skill_md, f"'{field}' is not an Agent Skills spec field; consider metadata:")
 
     if not body.strip():
         report.error(skill_md, "body is empty")

@@ -1,0 +1,14 @@
+interface:
+  display_name: GEDCOM Maintainer
+  short_description: Maintain sourced, consistent GEDCOM family trees
+  default_prompt: Use $gedcom-maintainer to inspect, enrich, validate, and safely
+    update this GEDCOM file.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

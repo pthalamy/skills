@@ -18,6 +18,9 @@ others.
 - When you add, rename or remove a skill, update the table in `README.md` and
   bump `version` in both `.claude-plugin/plugin.json` and
   `.claude-plugin/marketplace.json`.
+- `scripts/install.py` links or copies skills into each agent's skills
+  directory. When a tool changes where it scans, update the `AGENTS` table
+  there and the matching rows in `README.md`.
 - Keep `SKILL.md` files focused: description says what and when, body explains
   the workflow and why it matters, long material goes to `references/`.
 - Never commit secrets, tokens, or private company material. The repo is public.
