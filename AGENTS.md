@@ -16,9 +16,10 @@ others.
   `compatibility` even though the spec allows it: ChatGPT's skill validator
   rejects it, so state requirements in the body. In the body, say "the
   agent", not a product name, and avoid product-specific slash commands.
-- When you add, rename or remove a skill, update the table in `README.md` and
-  bump `version` in both `.claude-plugin/plugin.json` and
-  `.claude-plugin/marketplace.json`.
+- When you add, rename or remove a skill, update the table in `README.md` (one
+  row per skill, grouped by `metadata.category`) and bump `version` in both
+  `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`. The
+  validator warns about skills missing from the table.
 - `scripts/install.py` links or copies skills into each agent's skills
   directory. When a tool changes where it scans, update the `AGENTS` table
   there and the matching rows in `README.md`.

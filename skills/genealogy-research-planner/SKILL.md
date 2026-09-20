@@ -17,7 +17,7 @@ description: >-
 license: MIT
 metadata:
   author: Pierre Thalamy
-  category: data
+  category: genealogy
 ---
 
 # Genealogy Research Planner

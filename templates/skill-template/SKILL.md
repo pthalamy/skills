@@ -10,7 +10,7 @@ description: >-
 # compatibility: Needs git and network access.   # max 500 chars; ChatGPT's validator rejects it, so state requirements in the body instead
 # metadata:
 #   author: Pierre Thalamy
-#   category: writing | code | data | ops
+#   category: genealogy | writing | code | data | ops   # groups the README table
 # allowed-tools: Bash(git *) Read Grep            # pre-approved tools, experimental in the spec
 # --- Optional Claude Code only fields (other agents ignore them) ---
 # argument-hint: "[input-file] [format]"
