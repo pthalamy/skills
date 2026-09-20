@@ -13,7 +13,6 @@ description: >-
   marriage, death, burial), ancestors or descendants, or asks to merge, clean,
   verify, source or update a family tree, even if they never say GEDCOM.
 license: MIT
-compatibility: Requires Python 3.9+ for the bundled scripts (standard library only).
 metadata:
   author: Pierre Thalamy
   category: data
@@ -145,7 +144,7 @@ anything requested that the evidence did not support. Run
 
 ## Scripts
 
-All three are standard-library Python 3.9+ and accept `--json`.
+All three need only Python 3.9+ and the standard library, and accept `--json`.
 
 - `scripts/validate_gedcom.py FILE [--json] [--strict]`: encoding vs
   declaration, syntax and levels, duplicate and dangling xrefs, pointer
