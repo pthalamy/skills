@@ -9,7 +9,9 @@ others.
   frontmatter `name` must match. Scaffold new ones with
   `python3 scripts/new_skill.py <name>` rather than by hand.
 - Run `python3 scripts/validate_skills.py` before committing. CI runs the same
-  script, plus the template check `--path templates --skip-manifests`.
+  script, the template check `--path templates --skip-manifests`, and
+  `python3 -m unittest discover -s tests`, which exercises the scripts bundled
+  with the skills. Add a test there when you fix a script bug.
 - Skills must stay portable. Use only spec frontmatter fields (`name`,
   `description`, `license`, `metadata`, `allowed-tools`) unless a Claude Code
   only field is clearly needed; other agents ignore those. Avoid

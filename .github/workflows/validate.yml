@@ -20,3 +20,5 @@ jobs:
         run: python3 scripts/validate_skills.py
       - name: Validate the skill template
         run: python3 scripts/validate_skills.py --path templates --skip-manifests
+      - name: Test the bundled scripts
+        run: python3 -m unittest discover -s tests -v

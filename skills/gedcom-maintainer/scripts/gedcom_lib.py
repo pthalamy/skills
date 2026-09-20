@@ -323,8 +323,9 @@ def _parse_simple(tokens: list[str], calendar: str, gd: GDate) -> tuple[Optional
         if not 1 <= day <= lengths[month - 1]:
             gd.problems.append(f"day {day} does not exist in that month")
     elif day is not None and calendar in {"FRENCH R", "FRENCH_R"}:
-        if not 1 <= day <= (6 if month == 13 else 30):
-            gd.problems.append(f"day {day} does not exist in that French Republican month")
+        max_day = (6 if year in FRENCH_SEXTILE else 5) if month == 13 else 30
+        if not 1 <= day <= max_day:
+            gd.problems.append(f"day {day} does not exist in that French Republican month" + (" (year is not sextile)" if month == 13 and day == 6 else ""))
     return year, month, day
 
 

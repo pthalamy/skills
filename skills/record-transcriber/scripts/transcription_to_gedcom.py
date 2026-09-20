@@ -48,8 +48,8 @@ ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}
 UNITS = {"un": 1, "une": 1, "premier": 1, "deux": 2, "trois": 3, "quatre": 4, "cinq": 5, "six": 6, "sept": 7,
          "huit": 8, "neuf": 9, "dix": 10, "onze": 11, "douze": 12, "treize": 13, "quatorze": 14, "quinze": 15,
          "seize": 16, "vingt": 20, "trente": 30, "quarante": 40, "cinquante": 50, "soixante": 60,
-         "septante": 70, "octante": 80, "huitante": 80, "nonante": 90, "cent": 100, "cents": 100, "mil": 1000,
-         "mille": 1000}
+         "septante": 70, "octante": 80, "huitante": 80, "nonante": 90, "cent": 100, "mil": 1000, "mille": 1000,
+         "zero": 0}
 
 
 def fold(s: str) -> str:
@@ -57,24 +57,35 @@ def fold(s: str) -> str:
 
 
 def words_to_int(text: str) -> Optional[int]:
-    """'vingt six', 'quatre vingt neuf', 'mil sept cent quatre vingt neuf' → int."""
-    toks = [t for t in re.split(r"[\s\-]+", fold(text)) if t and t not in {"et", "e", "eme", "ieme", "iesme"}]
+    """French number words to int: 'vingt six' → 26, 'quatre vingt neuf' → 89,
+    'mil sept cent quatre vingt neuf' → 1789, 'soixante et onze' → 71."""
+    raw = [t for t in re.split(r"[\s\-']+", fold(text)) if t]
+    toks = []
+    for t in raw:
+        t = re.sub(r"(ieme|iesme|eme|e)$", "", t) if t not in UNITS and not t.isdigit() else t
+        t = "vingt" if t == "vingts" else ("cent" if t == "cents" else t)
+        if t in {"et", ""}:
+            continue
+        toks.append(t)
     if not toks:
         return None
-    total = current = 0
+    total = 0      # completed thousands
+    current = 0    # value below 1000 being built
     for t in toks:
-        t = re.sub(r"(ieme|iesme|eme)$", "", t)
         if t.isdigit():
             current += int(t)
             continue
         if t not in UNITS:
             return None
         v = UNITS[t]
-        if v == 100:
-            current = (current or 1) * 100
-        elif v == 1000:
+        if v == 1000:
             total += (current or 1) * 1000
             current = 0
+        elif v == 100:
+            below = current % 100
+            current = current - below + (below or 1) * 100
+        elif v == 20 and current % 100 == 4:
+            current += 76          # 'quatre' + 'vingt' = 80
         else:
             current += v
     return total + current
@@ -112,7 +123,10 @@ def parse_republican(text: str) -> Optional[tuple[int, int, int]]:
     day = words_to_int(day_txt) if not re.fullmatch(r"\s*\d+\s*[a-z]*\s*", day_txt) else int(re.search(r"\d+", day_txt).group())
     year_txt = re.sub(r"\s+", " ", year_txt).strip()
     year = int(year_txt) if year_txt.isdigit() else (roman_to_int(year_txt.replace(" ", "")) or words_to_int(year_txt))
-    if not day or not year or not 1 <= day <= 30 or not 1 <= year <= 14:
+    if not day or not year or not 1 <= year <= 14:
+        return None
+    max_day = (6 if year in FR_SEXTILE else 5) if month == 13 else 30
+    if not 1 <= day <= max_day:
         return None
     return year, month, day
 
@@ -272,6 +286,12 @@ def semantic_checks(doc: dict, errors: list[str], warnings: list[str]) -> None:
         errors.append("event date is after the act date")
     if doc.get("document", {}).get("source_type") == "derivative" and doc.get("document", {}).get("citation", {}).get("quay", 0) > 2:
         warnings.append("citation.quay 3 on a derivative source; the original act would be QUAY 3")
+    ev = doc.get("event", {})
+    if ev.get("type") == "other" and not (ev.get("details") or doc.get("document", {}).get("subtype")):
+        warnings.append("event.type 'other' without event.details or document.subtype: the GEDCOM EVEN will have a meaningless TYPE")
+    if doc.get("document", {}).get("source_type") in {"derivative", "authored"} and not ev.get("date"):
+        warnings.append("derivative/authored source without event.date: facts about persons (occupation, residence, age) will carry no date, "
+                        "because the act_date of a later publication is not the date of the facts")
     if doc.get("transcription", {}).get("literal", "").count("[?]") > 5:
         warnings.append("more than five doubtful readings; consider asking for a better image")
 
@@ -394,7 +414,9 @@ def age_birth_date(p: dict, act_year: Optional[int]) -> Optional[str]:
 EVENT_TAG = {"birth": "BIRT", "baptism": "BAPM", "marriage": "MARR", "marriage_contract": "MARC", "banns": "MARB",
              "death": "DEAT", "burial": "BURI", "census": "CENS", "military_registration": "EVEN", "notarial_act": "EVEN", "other": "EVEN"}
 RELA = {"godfather": "godfather", "godmother": "godmother", "witness": "witness", "declarant": "declarant",
-        "informant": "informant", "midwife": "midwife", "officiant": "officiant", "employer": "employer", "other": "associate"}
+        "informant": "informant", "midwife": "midwife", "employer": "employer", "other": "associate"}
+# Roles that get no INDI record of their own (the officiant is named in a note instead).
+NO_INDI_ROLES = {"officiant"}
 
 
 def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], indi_start: int, fam_start: int, no_text: bool) -> str:
@@ -404,6 +426,12 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
     persons = {p["id"]: p for p in doc["persons"]}
     act_year = date_year(d.get("act_date"))
     act_date = gedcom_date(d.get("act_date"))
+    # Facts stated about people (occupation, residence, age) are dated by the event, not by the
+    # record: a 2016 article about a 1941 arrest describes 1941. Only an original or duplicate act
+    # written at the time may fall back to its own date.
+    contemporaneous = d.get("source_type", "original") in {"original", "duplicate"}
+    ref_date = gedcom_date(ev.get("date")) or (act_date if contemporaneous else None)
+    ref_year = date_year(ev.get("date")) or (act_year if contemporaneous else None)
 
     # xrefs
     xref: dict[str, str] = {}
@@ -476,7 +504,7 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
     # individuals
     main_tag = EVENT_TAG[ev["type"]]
     for p in doc["persons"]:
-        if p["role"] == "officiant":
+        if p["role"] in NO_INDI_ROLES:
             continue
         ix = xref[p["id"]]
         name, given, surn = person_name(p)
@@ -502,18 +530,21 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
 
         is_subject = p["role"] == "subject"
         if is_subject and ev["type"] not in {"marriage", "marriage_contract", "banns"}:
-            if main_tag != "EVEN" or ev["type"] != "other":
-                e.line(1, main_tag)
-                if main_tag == "EVEN":
-                    e.line(2, "TYPE", d.get("subtype") or ev["type"])
-                evd = gedcom_date(ev.get("date")) or (act_date if ev["type"] in {"baptism", "burial", "census"} else None)
-                if evd:
-                    e.line(2, "DATE", evd)
-                if place_value(ev.get("place")):
-                    e.line(2, "PLAC", place_value(ev.get("place")))
-                if ev.get("details"):
-                    e.line(2, "NOTE", ev["details"])
-                emit_citation(e, 2, doc, sxref, with_text=True)
+            e.line(1, main_tag)
+            if main_tag == "EVEN":
+                e.line(2, "TYPE", (ev.get("details") if ev["type"] == "other" and ev.get("details") and len(ev["details"]) <= 60 else None)
+                       or d.get("subtype") or ev["type"].replace("_", " "))
+            evd = gedcom_date(ev.get("date")) or (act_date if contemporaneous and ev["type"] in {"baptism", "burial", "census"} else None)
+            if evd:
+                e.line(2, "DATE", evd)
+            if place_value(ev.get("place")):
+                e.line(2, "PLAC", place_value(ev.get("place")))
+            if ev.get("details"):
+                e.line(2, "NOTE", ev["details"])
+            officiants = [q for q in doc["persons"] if q["role"] == "officiant"]
+            if officiants or d.get("officiant"):
+                e.line(2, "NOTE", "Officiant: " + "; ".join([person_name(q)[0].replace("/", "") for q in officiants] + ([d["officiant"]] if d.get("officiant") else [])))
+            emit_citation(e, 2, doc, sxref, with_text=True)
             rel = ev.get("related_dates", {}) or {}
             relp = ev.get("related_places", {}) or {}
             for key, tag in (("birth", "BIRT"), ("death", "DEAT"), ("baptism", "BAPM"), ("burial", "BURI")):
@@ -534,10 +565,10 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
             if place_value(p["birth"].get("place")):
                 e.line(2, "PLAC", place_value(p["birth"].get("place")))
             emit_citation(e, 2, doc, sxref, with_text=False, note="Birth data as stated in this act (secondary information)", secondary=True)
-        elif age_birth_date(p, act_year):
+        elif age_birth_date(p, ref_year):
             e.line(1, "BIRT")
-            e.line(2, "DATE", age_birth_date(p, act_year))
-            emit_citation(e, 2, doc, sxref, with_text=False, note=f"From age '{p['age'].get('as_written', p['age'].get('years'))}' at the act date", secondary=True)
+            e.line(2, "DATE", age_birth_date(p, ref_year))
+            emit_citation(e, 2, doc, sxref, with_text=False, note=f"From age '{p['age'].get('as_written', p['age'].get('years'))}' at the event date", secondary=True)
         if p.get("death", {}).get("date") or p.get("death", {}).get("place"):
             e.line(1, "DEAT")
             gd = gedcom_date(p["death"].get("date"))
@@ -546,19 +577,19 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
             if place_value(p["death"].get("place")):
                 e.line(2, "PLAC", place_value(p["death"].get("place")))
             emit_citation(e, 2, doc, sxref, with_text=False, note="Death as stated in this act", secondary=True)
-        elif p.get("status") == "deceased" and act_date:
+        elif p.get("status") == "deceased" and ref_date:
             e.line(1, "DEAT")
-            e.line(2, "DATE", f"BEF {act_date}")
+            e.line(2, "DATE", f"BEF {ref_date}")
             emit_citation(e, 2, doc, sxref, with_text=False, note="Described as deceased (feu/défunt) in this act", secondary=True)
         if p.get("occupation"):
             e.line(1, "OCCU", p["occupation"])
-            if act_date:
-                e.line(2, "DATE", act_date)
+            if ref_date:
+                e.line(2, "DATE", ref_date)
             emit_citation(e, 2, doc, sxref, with_text=False)
         if place_value(p.get("residence")):
             e.line(1, "RESI")
-            if act_date:
-                e.line(2, "DATE", act_date)
+            if ref_date:
+                e.line(2, "DATE", ref_date)
             e.line(2, "PLAC", place_value(p["residence"]))
             if p["residence"].get("detail"):
                 e.line(2, "ADDR", p["residence"]["detail"])
@@ -570,7 +601,7 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
         # associations from the subject's side are emitted on the subject below
         if is_subject:
             for q in doc["persons"]:
-                if q["role"] in RELA and subject_of(q) is p:
+                if q["role"] in RELA and q["role"] not in NO_INDI_ROLES and subject_of(q) is p:
                     e.line(1, "ASSO", xref[q["id"]])
                     rela = RELA[q["role"]]
                     if q.get("relationship_as_written"):
@@ -613,7 +644,7 @@ def to_gedcom(doc: dict, source_xref: Optional[str], mapping: dict[str, str], in
             e.line(1, "CHIL", xref[c["id"]])
         if f["kind"] == "union":
             e.line(1, main_tag)
-            evd = gedcom_date(ev.get("date")) or act_date
+            evd = gedcom_date(ev.get("date")) or (act_date if contemporaneous else None)
             if evd:
                 e.line(2, "DATE", evd)
             if place_value(ev.get("place")):
