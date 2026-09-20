@@ -16,7 +16,9 @@ Checks, for each directory under ``skills/``:
   defines them; Claude Code's own fields are recognised and named).
 
 Also checks that ``.claude-plugin/marketplace.json`` and
-``.claude-plugin/plugin.json`` are valid JSON with the required fields.
+``.claude-plugin/plugin.json`` are valid JSON with the required fields, and
+warns when a skill under ``skills/`` has no row in the root ``README.md``
+table (the human-readable index, grouped by category).
 
 Only the standard library is used, so the script runs anywhere Python 3.9+ is
 available. The frontmatter parser is intentionally small: it handles
@@ -178,6 +180,17 @@ def validate_skill_dir(skill_dir: Path, report: Report) -> None:
         )
 
 
+def validate_readme_index(skill_dirs: list[Path], report: Report) -> None:
+    readme = ROOT / "README.md"
+    if not readme.is_file():
+        report.warn(readme, "missing; the README holds the skills index")
+        return
+    text = readme.read_text(encoding="utf-8")
+    for skill_dir in skill_dirs:
+        if f"](skills/{skill_dir.name}/SKILL.md)" not in text:
+            report.warn(readme, f"no table row for skill '{skill_dir.name}'")
+
+
 def validate_manifests(report: Report) -> None:
     plugin_dir = ROOT / ".claude-plugin"
     for filename, required in (
@@ -230,6 +243,8 @@ def main(argv: list[str] | None = None) -> int:
         for skill_dir in skill_dirs:
             validate_skill_dir(skill_dir, report)
         print(f"Checked {len(skill_dirs)} skill(s) in {rel(skills_root)}/")
+        if skills_root == (ROOT / "skills").resolve():
+            validate_readme_index(skill_dirs, report)
 
     if not args.skip_manifests:
         validate_manifests(report)
