@@ -1,0 +1,238 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pthalamy/skills/record-transcriber/transcription-schema.json",
+  "title": "Genealogical record transcription",
+  "description": "Structured extraction of one act or record. Literal transcription, extracted persons and facts, and uncertainties stay in separate fields. Dates: as_written is mandatory; iso (YYYY, YYYY-MM or YYYY-MM-DD, Gregorian) and gedcom (explicit GEDCOM date value) are optional; calendar defaults to gregorian.",
+  "type": "object",
+  "required": ["document", "transcription", "event", "persons"],
+  "additionalProperties": false,
+  "properties": {
+    "document": {
+      "type": "object",
+      "required": ["type", "act_date", "citation"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["baptism", "birth", "marriage", "marriage_contract", "banns", "death", "burial", "census", "military", "notarial", "index", "other"]},
+        "subtype": {"type": "string", "description": "Free text: 'acte de naissance', 'inventaire après décès', 'liste nominative 1872'."},
+        "source_type": {"type": "string", "enum": ["original", "duplicate", "derivative", "authored"], "default": "original", "description": "original = the register page itself (image seen); duplicate = greffe copy; derivative = index, transcription, typed copy; authored = narrative."},
+        "language": {"type": "string", "description": "BCP 47 tag or plain name: fr, la, de, it, oc."},
+        "jurisdiction": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "country": {"type": "string"},
+            "region": {"type": "string"},
+            "department": {"type": "string"},
+            "commune": {"type": "string"},
+            "parish": {"type": "string"},
+            "diocese": {"type": "string"}
+          }
+        },
+        "register": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {"type": "string"},
+            "repository": {"type": "string", "description": "Archive or site holding the register."},
+            "series": {"type": "string", "description": "Archival series or collection, e.g. '4 E 123', 'collection communale'."},
+            "reference": {"type": "string", "description": "Call number / cote."},
+            "year_range": {"type": "string"}
+          }
+        },
+        "location_in_register": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "image": {"type": "string", "description": "Viewer image number, e.g. 'vue 12/40'."},
+            "folio": {"type": "string"},
+            "page": {"type": "string"},
+            "act_number": {"type": "string"},
+            "url": {"type": "string"}
+          }
+        },
+        "act_date": {"$ref": "#/definitions/date"},
+        "officiant": {"type": "string", "description": "Priest, mayor, notary as written, with title."},
+        "citation": {
+          "type": "object",
+          "required": ["page_string"],
+          "additionalProperties": false,
+          "properties": {
+            "page_string": {"type": "string", "description": "Everything needed to find the act again; becomes GEDCOM PAGE."},
+            "source_title": {"type": "string", "description": "Becomes the SOUR record TITL when no existing source xref is given."},
+            "quay": {"type": "integer", "minimum": 0, "maximum": 3, "description": "Overrides the QUAY derived from source_type."},
+            "accessed": {"type": "string", "description": "ISO date the image was consulted."}
+          }
+        },
+        "image_quality": {"type": "string", "enum": ["good", "fair", "poor", "unreadable"]}
+      }
+    },
+    "transcription": {
+      "type": "object",
+      "required": ["literal"],
+      "additionalProperties": false,
+      "properties": {
+        "literal": {"type": "string", "description": "Line-by-line literal transcription with the conventions of references/paleography.md."},
+        "expanded": {"type": "string", "description": "Optional modernised or translated reading."},
+        "margin": {"type": "string", "description": "Marginal text other than later mentions (act number, names)."},
+        "notes": {"type": "string"}
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "enum": ["birth", "baptism", "marriage", "marriage_contract", "banns", "death", "burial", "census", "military_registration", "notarial_act", "other"]},
+        "date": {"$ref": "#/definitions/date", "description": "Date of the event itself (birth, death, marriage). Omit when the act gives only its own date and the event date is not stated."},
+        "time": {"type": "string"},
+        "place": {"$ref": "#/definitions/place"},
+        "related_dates": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Other dates the act states about the subject: a baptism act's birth date, a burial act's death date.",
+          "properties": {
+            "birth": {"$ref": "#/definitions/date"},
+            "death": {"$ref": "#/definitions/date"},
+            "baptism": {"$ref": "#/definitions/date"},
+            "burial": {"$ref": "#/definitions/date"},
+            "banns": {"type": "array", "items": {"$ref": "#/definitions/date"}}
+          }
+        },
+        "related_places": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "birth": {"$ref": "#/definitions/place"},
+            "death": {"$ref": "#/definitions/place"},
+            "burial": {"$ref": "#/definitions/place"}
+          }
+        },
+        "details": {"type": "string", "description": "Anything else the act states about the event: sacraments, cause of death, dispensations, contract notary, legitimated children."}
+      }
+    },
+    "persons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "role"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^p[0-9]+$"},
+          "role": {"type": "string", "enum": ["subject", "father", "mother", "spouse", "father_of_spouse", "mother_of_spouse", "previous_spouse", "godfather", "godmother", "witness", "declarant", "informant", "officiant", "midwife", "head_of_household", "household_member", "employer", "other"]},
+          "party": {"type": "integer", "enum": [1, 2], "description": "For marriages: 1 = first-named party (usually groom), 2 = second. Parents and previous spouses of a party carry the same number in related_to via that party's id."},
+          "related_to": {"type": "string", "pattern": "^p[0-9]+$", "description": "Person this role is relative to: a father's related_to is the child or the party."},
+          "relationship_as_written": {"type": "string", "description": "Kinship the act states: 'oncle de l'épouse', 'ami', 'voisin', 'fils du défunt'."},
+          "names": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "given_as_written": {"type": "string"},
+              "surname_as_written": {"type": "string"},
+              "given_normalised": {"type": "string"},
+              "surname_normalised": {"type": "string"},
+              "dit": {"type": "string", "description": "By-name: 'dit Lafleur'."},
+              "title": {"type": "string", "description": "Sieur, dame, Me, écuyer."},
+              "signature_spelling": {"type": "string", "description": "How the person spelled their own name when signing, if different."}
+            }
+          },
+          "sex": {"type": "string", "enum": ["M", "F", "U"]},
+          "age": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "as_written": {"type": "string"},
+              "years": {"type": "number"},
+              "months": {"type": "number"},
+              "days": {"type": "number"},
+              "qualifier": {"type": "string", "enum": ["exact", "about", "majeur", "mineur", "unknown"], "default": "exact"}
+            }
+          },
+          "birth": {"type": "object", "additionalProperties": false, "properties": {"date": {"$ref": "#/definitions/date"}, "place": {"$ref": "#/definitions/place"}}},
+          "death": {"type": "object", "additionalProperties": false, "properties": {"date": {"$ref": "#/definitions/date"}, "place": {"$ref": "#/definitions/place"}}},
+          "status": {"type": "string", "enum": ["living", "deceased", "unknown"], "description": "deceased when the act says feu, défunt, décédé."},
+          "marital_status": {"type": "string", "enum": ["single", "married", "widowed", "divorced", "unknown"]},
+          "occupation": {"type": "string"},
+          "residence": {"$ref": "#/definitions/place"},
+          "origin": {"$ref": "#/definitions/place", "description": "natif de, originaire de."},
+          "signature": {"type": "string", "enum": ["signed", "mark", "declared_unable", "not_stated", "absent"]},
+          "confidence": {"type": "string", "enum": ["high", "medium", "low"], "description": "Reading confidence for this person's identity fields."},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "marginal_mentions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "type": {"type": "string", "enum": ["marriage", "divorce", "death", "recognition", "legitimation", "adoption", "rectification", "name_change", "other"]},
+          "date": {"$ref": "#/definitions/date"},
+          "place": {"$ref": "#/definitions/place"},
+          "text": {"type": "string"},
+          "authority": {"type": "string", "description": "Court, commune, officer named."},
+          "persons": {"type": "array", "items": {"type": "string", "pattern": "^p[0-9]+$"}},
+          "spouse_name": {"type": "string"}
+        }
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "reading"],
+        "additionalProperties": false,
+        "properties": {
+          "field": {"type": "string", "description": "JSON pointer-ish path: 'persons/p2/names/surname_as_written'."},
+          "reading": {"type": "string"},
+          "alternatives": {"type": "array", "items": {"type": "string"}},
+          "reason": {"type": "string"},
+          "impact": {"type": "string", "enum": ["identity", "date", "place", "relationship", "minor"]}
+        }
+      }
+    },
+    "cross_checks": {
+      "type": "array",
+      "description": "Internal consistency checks and comparisons with context the user supplied.",
+      "items": {
+        "type": "object",
+        "required": ["check", "result"],
+        "additionalProperties": false,
+        "properties": {
+          "check": {"type": "string"},
+          "result": {"type": "string", "enum": ["consistent", "conflict", "not_applicable"]},
+          "detail": {"type": "string"}
+        }
+      }
+    },
+    "questions_for_user": {"type": "array", "items": {"type": "string"}}
+  },
+  "definitions": {
+    "date": {
+      "type": "object",
+      "required": ["as_written"],
+      "additionalProperties": false,
+      "properties": {
+        "as_written": {"type": "string"},
+        "iso": {"type": "string", "pattern": "^[0-9]{3,4}(-[0-9]{2}(-[0-9]{2})?)?$", "description": "Gregorian, as precise as the act allows."},
+        "gedcom": {"type": "string", "description": "Explicit GEDCOM date value, e.g. '@#DFRENCH R@ 12 VEND 4' or 'BET 1860 AND 1865'. Overrides iso."},
+        "calendar": {"type": "string", "enum": ["gregorian", "julian", "french_republican", "hebrew", "unknown"], "default": "gregorian"},
+        "qualifier": {"type": "string", "enum": ["", "ABT", "CAL", "EST", "BEF", "AFT"], "default": ""},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]}
+      }
+    },
+    "place": {
+      "type": "object",
+      "required": ["as_written"],
+      "additionalProperties": false,
+      "properties": {
+        "as_written": {"type": "string"},
+        "normalised": {"type": "string", "description": "GEDCOM PLAC form, smallest to largest: 'Lyon, Rhône, Auvergne-Rhône-Alpes, France'."},
+        "detail": {"type": "string", "description": "House, street, hamlet, farm."},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]}
+      }
+    }
+  }
+}
