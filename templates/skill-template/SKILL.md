@@ -7,7 +7,7 @@ description: >-
   skill. Example: "Use whenever the user mentions X, Y or Z, or wants to ...".
 # --- Optional fields from the Agent Skills specification (portable) ---
 # license: MIT
-# compatibility: Needs git and network access.   # max 500 chars
+# compatibility: Needs git and network access.   # max 500 chars; ChatGPT's validator rejects it, so state requirements in the body instead
 # metadata:
 #   author: Pierre Thalamy
 #   category: writing | code | data | ops

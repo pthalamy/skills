@@ -11,10 +11,11 @@ others.
 - Run `python3 scripts/validate_skills.py` before committing. CI runs the same
   script, plus the template check `--path templates --skip-manifests`.
 - Skills must stay portable. Use only spec frontmatter fields (`name`,
-  `description`, `license`, `compatibility`, `metadata`, `allowed-tools`) unless
-  a Claude Code only field is clearly needed; other agents ignore those. In the
-  body, say "the agent", not a product name, and avoid product-specific slash
-  commands.
+  `description`, `license`, `metadata`, `allowed-tools`) unless a Claude Code
+  only field is clearly needed; other agents ignore those. Avoid
+  `compatibility` even though the spec allows it: ChatGPT's skill validator
+  rejects it, so state requirements in the body. In the body, say "the
+  agent", not a product name, and avoid product-specific slash commands.
 - When you add, rename or remove a skill, update the table in `README.md` and
   bump `version` in both `.claude-plugin/plugin.json` and
   `.claude-plugin/marketplace.json`.
