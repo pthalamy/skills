@@ -13,7 +13,8 @@ Subcommands::
     add LOG.json --question Q1 --record "état civil, mariages" --repository "AD Rhône" \
         --scope "Lyon 1815-1820, tables décennales + actes" --keys "Dupont Dupond" \
         --result found|negative|partial|pending|blocked [--citation "…"] [--proves "…"] [--note "…"]
-    done LOG.json S3 found|negative|partial [--citation "…"] [--note "…"]   (close a pending search)
+    done LOG.json S3 found|negative|partial [--citation "…"] [--scope "…"] [--note "…"]
+                                        close a pending search; a negative still needs a scope
     list LOG.json [--question Q1] [--result negative]
     next LOG.json                       pending/blocked searches and open questions without a plan
     report LOG.json [--out report.md]   Markdown report
@@ -113,6 +114,10 @@ def cmd_done(a) -> int:
         sys.exit(f"ERROR: no search {a.search}")
     if a.result not in {"found", "negative", "partial"}:
         sys.exit("ERROR: result must be found, negative or partial")
+    if a.scope:
+        s["scope"] = a.scope
+    if a.result == "negative" and not s.get("scope"):
+        sys.exit("ERROR: a negative result needs a scope (place, years, register/images covered); pass --scope")
     s["result"] = a.result
     s["completed"] = dt.date.today().isoformat()
     if a.citation:
@@ -348,7 +353,7 @@ def main(argv: list[str]) -> int:
     p.add_argument("--result", required=True); p.add_argument("--citation"); p.add_argument("--proves"); p.add_argument("--note")
     p.add_argument("--date"); p.set_defaults(fn=cmd_add)
     p = sub.add_parser("done"); p.add_argument("log"); p.add_argument("search"); p.add_argument("result")
-    p.add_argument("--citation"); p.add_argument("--note"); p.set_defaults(fn=cmd_done)
+    p.add_argument("--citation"); p.add_argument("--note"); p.add_argument("--scope"); p.set_defaults(fn=cmd_done)
     p = sub.add_parser("list"); p.add_argument("log"); p.add_argument("--question"); p.add_argument("--result"); p.add_argument("--json", action="store_true"); p.set_defaults(fn=cmd_list)
     p = sub.add_parser("next"); p.add_argument("log"); p.add_argument("--json", action="store_true"); p.set_defaults(fn=cmd_next)
     p = sub.add_parser("report"); p.add_argument("log"); p.add_argument("--out"); p.set_defaults(fn=cmd_report)

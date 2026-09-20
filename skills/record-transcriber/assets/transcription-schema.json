@@ -50,7 +50,7 @@
             "url": {"type": "string"}
           }
         },
-        "act_date": {"$ref": "#/definitions/date"},
+        "act_date": {"$ref": "#/definitions/date", "description": "Date the record itself was written or published. For an original act this is the day the officer wrote it; for a later publication (article, book, index) it is the publication date and must NOT be used to date the facts: give event.date for that."},
         "officiant": {"type": "string", "description": "Priest, mayor, notary as written, with title."},
         "citation": {
           "type": "object",
@@ -83,7 +83,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {"type": "string", "enum": ["birth", "baptism", "marriage", "marriage_contract", "banns", "death", "burial", "census", "military_registration", "notarial_act", "other"]},
-        "date": {"$ref": "#/definitions/date", "description": "Date of the event itself (birth, death, marriage). Omit when the act gives only its own date and the event date is not stated."},
+        "date": {"$ref": "#/definitions/date", "description": "Date of the event itself (birth, death, marriage, arrest…). Facts about persons (occupation, residence, age-derived birth years) are dated by this date. Omit only when a contemporaneous act gives just its own date; a derivative or authored source should always carry it."},
         "time": {"type": "string"},
         "place": {"$ref": "#/definitions/place"},
         "related_dates": {

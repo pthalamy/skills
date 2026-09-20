@@ -105,6 +105,7 @@ both the `agents` target and per-agent targets.
 ├── skills/                 # one folder per skill, each with a SKILL.md
 ├── templates/
 │   └── skill-template/     # starting point copied by scripts/new_skill.py
+├── tests/                  # unittest suite for the scripts bundled with skills
 ├── scripts/
 │   ├── new_skill.py        # scaffold a new skill from the template
 │   ├── validate_skills.py  # lint frontmatter, names, portability, manifests
@@ -114,7 +115,7 @@ both the `agents` target and per-agent targets.
 │   └── marketplace.json    # lets Claude Code add the repo as a marketplace
 ├── AGENTS.md               # guidance for agents working in this repo
 └── .github/workflows/
-    └── validate.yml        # runs the validator on every push and PR
+    └── validate.yml        # runs the validator and the tests on every push and PR
 ```
 
 ## Adding a skill
