@@ -144,6 +144,9 @@ added, changed, removed or merged with its evidence and level, conflicts
 and hypotheses left open with the record that would decide each, and
 anything requested that the evidence did not support. Run
 `inspect_gedcom.py diff OLD NEW` to make sure the log and the file agree.
+Hand the open conflicts and hypotheses to the genealogy-research-planner
+skill, when available, so they become planned searches rather than notes
+that are never followed up.
 
 ## Scripts
 
