@@ -32,7 +32,10 @@ file into context or hand-check pointers.
 ## When to use
 
 Any task that reads or changes a `.ged` file, or that turns genealogical
-records (acts, censuses, images, another tree) into changes to one. Not for
+records (acts, censuses, images, another tree) into changes to one. When
+the input is an image or scan of a record, transcribe it first with the
+record-transcriber skill if it is available; its GEDCOM fragments are
+built to be integrated by this one. Not for
 writing narrative family histories or for building a new tree from scratch
 with no file; for those, produce the text or ask which software the user
 will import into and create a minimal valid GEDCOM 5.5.1 only if asked.
