@@ -13,6 +13,7 @@ Gemini CLI and a couple dozen others. Nothing here is tied to one vendor.
 | Skill | What it does |
 | ----- | ------------ |
 | [gedcom-maintainer](skills/gedcom-maintainer/SKILL.md) | Maintain GEDCOM family trees as an evidence-backed graph: sourced, QUAY-graded edits only, conflicts and hypotheses recorded in notes, Genealogical Proof Standard guidance, plus scripts to validate structure, links, dates and chronology, and to inspect and diff large files. |
+| [record-transcriber](skills/record-transcriber/SKILL.md) | Transcribe parish and civil registers, censuses, military rolls and notarial deeds (French, Latin and other European forms) into a literal transcription with uncertainty marks, a schema-validated JSON extraction and GEDCOM citation fragments, with paleography and record-type references. |
 
 ## Install
 

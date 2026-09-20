@@ -1,0 +1,14 @@
+interface:
+  display_name: Record Transcriber
+  short_description: Transcribe old genealogical records into cited, structured data
+  default_prompt: Use $record-transcriber to transcribe this record image and extract
+    the persons, dates and places into structured data and GEDCOM fragments.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

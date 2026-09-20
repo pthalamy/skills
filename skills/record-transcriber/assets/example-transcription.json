@@ -1,0 +1,80 @@
+{
+  "document": {
+    "type": "birth",
+    "subtype": "acte de naissance, état civil",
+    "source_type": "original",
+    "language": "fr",
+    "jurisdiction": {"country": "France", "department": "Rhône", "commune": "Lyon"},
+    "register": {
+      "title": "Lyon, état civil, naissances an IV",
+      "repository": "Archives municipales de Lyon",
+      "series": "2 E",
+      "reference": "2 E 42",
+      "year_range": "an IV"
+    },
+    "location_in_register": {"image": "vue 12/40", "act_number": "34", "url": "https://example.org/ark:/12345/vue12"},
+    "act_date": {"as_written": "le treize vendémiaire an quatre de la République française", "iso": "1795-10-05", "calendar": "french_republican", "gedcom": "@#DFRENCH R@ 13 VEND 4"},
+    "officiant": "Claude Rey, officier public de la commune de Lyon, section de la Fédération",
+    "citation": {
+      "page_string": "Naissances an IV, acte n° 34, vue 12/40, https://example.org/ark:/12345/vue12 (consulté le 19 sept. 2026)",
+      "source_title": "Lyon (Rhône). État civil, naissances, an IV",
+      "accessed": "2026-09-19"
+    },
+    "image_quality": "good"
+  },
+  "transcription": {
+    "literal": "Aujourd'huy treize vendemiaire an quatre de la Republique\nfrançaise une et indivisible, par devant moy Claude Rey officier\npublic de la commune de Lyon section de la Federation est comparu\nPierre Dupont tisseur agé de trente ans demeurant rue Tholozan\nlequel m'a declaré que Marie Louise Martin son epouse est\naccouchée hier a six heures du soir en son domicile d'un enfant\nmale auquel il a donné le prenom de Jean Baptiste, en presence\nde Antoine Girard cordonnier agé de quarante deux ans et de\nJ[ea]ne Roux sage femme agée de cinquante ans environ tous deux\ndemeurant en cette commune, et ont signé avec moy, excepté\nlad[ite] Roux qui a declaré ne sçavoir.\n{margin: Dupont Jean Baptiste n° 34}",
+    "expanded": "Aujourd'hui 13 vendémiaire an IV (5 octobre 1795), devant Claude Rey, officier public de Lyon, section de la Fédération, a comparu Pierre Dupont, tisseur, 30 ans, demeurant rue Tholozan, qui a déclaré que Marie Louise Martin, son épouse, a accouché hier à 18 h à leur domicile d'un garçon prénommé Jean Baptiste, en présence d'Antoine Girard, cordonnier, 42 ans, et de Jeanne Roux, sage-femme, environ 50 ans, tous deux de Lyon. Signatures sauf Jeanne Roux.",
+    "margin": "Dupont Jean Baptiste n° 34"
+  },
+  "event": {
+    "type": "birth",
+    "date": {"as_written": "hier", "iso": "1795-10-04", "calendar": "french_republican", "gedcom": "@#DFRENCH R@ 12 VEND 4", "confidence": "high"},
+    "time": "six heures du soir",
+    "place": {"as_written": "en son domicile, rue Tholozan", "normalised": "Lyon, Rhône, Auvergne-Rhône-Alpes, France", "detail": "rue Tholozan"}
+  },
+  "persons": [
+    {
+      "id": "p1", "role": "subject",
+      "names": {"given_as_written": "Jean Baptiste", "surname_as_written": "Dupont", "given_normalised": "Jean Baptiste", "surname_normalised": "Dupont"},
+      "sex": "M", "confidence": "high"
+    },
+    {
+      "id": "p2", "role": "father", "related_to": "p1",
+      "names": {"given_as_written": "Pierre", "surname_as_written": "Dupont", "given_normalised": "Pierre", "surname_normalised": "Dupont"},
+      "sex": "M", "age": {"as_written": "agé de trente ans", "years": 30, "qualifier": "exact"},
+      "occupation": "tisseur", "residence": {"as_written": "rue Tholozan", "normalised": "Lyon, Rhône, Auvergne-Rhône-Alpes, France", "detail": "rue Tholozan"},
+      "status": "living", "signature": "signed", "confidence": "high"
+    },
+    {
+      "id": "p3", "role": "mother", "related_to": "p1",
+      "names": {"given_as_written": "Marie Louise", "surname_as_written": "Martin", "given_normalised": "Marie Louise", "surname_normalised": "Martin"},
+      "sex": "F", "marital_status": "married", "status": "living", "signature": "absent", "confidence": "high"
+    },
+    {
+      "id": "p4", "role": "witness", "related_to": "p1",
+      "names": {"given_as_written": "Antoine", "surname_as_written": "Girard", "given_normalised": "Antoine", "surname_normalised": "Girard"},
+      "sex": "M", "age": {"as_written": "agé de quarante deux ans", "years": 42, "qualifier": "exact"},
+      "occupation": "cordonnier", "residence": {"as_written": "en cette commune", "normalised": "Lyon, Rhône, Auvergne-Rhône-Alpes, France"},
+      "signature": "signed", "confidence": "high"
+    },
+    {
+      "id": "p5", "role": "midwife", "related_to": "p1",
+      "names": {"given_as_written": "J[ea]ne", "surname_as_written": "Roux", "given_normalised": "Jeanne", "surname_normalised": "Roux"},
+      "sex": "F", "age": {"as_written": "agée de cinquante ans environ", "years": 50, "qualifier": "about"},
+      "occupation": "sage femme", "residence": {"as_written": "en cette commune", "normalised": "Lyon, Rhône, Auvergne-Rhône-Alpes, France"},
+      "signature": "declared_unable", "confidence": "medium",
+      "notes": "Given name abbreviated; Jeanne is the usual expansion but Jenne/Jehanne possible."
+    }
+  ],
+  "uncertainties": [
+    {"field": "persons/p5/names/given_as_written", "reading": "Jeanne", "alternatives": ["Jenne"], "reason": "abbreviated Jne with a stroke", "impact": "minor"}
+  ],
+  "cross_checks": [
+    {"check": "act date in words vs margin", "result": "consistent"},
+    {"check": "father's age 30 vs user's tree (born CAL 1765)", "result": "consistent", "detail": "1795 - 30 = 1765"}
+  ],
+  "questions_for_user": [
+    "Is @I14@ Pierre Dupont in your tree the tisseur of rue Tholozan? The act gives no parents for him."
+  ]
+}
