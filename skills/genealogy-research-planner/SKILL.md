@@ -3,15 +3,17 @@ name: genealogy-research-planner
 description: >-
   Plan, prioritise and log genealogical research. From a person, couple or
   question (in a GEDCOM file, notes or a description), states the research
-  question precisely, inventories what is already proven, determines which
-  records exist for that place and period and where they are held or online,
-  orders the searches by what each would prove, applies brick-wall strategies
-  (name variants, collateral lines, neighbours and witnesses, substitute
-  records for lost registers), and keeps a research log that records negative
-  results so searches are not repeated. Use whenever the user asks where to
-  look next, what archives or records to search, how to get past a brick wall
-  or a missing ancestor, what a record would prove, how to organise or
-  document their genealogy research, or wants a research plan, log or report.
+  question precisely, inventories what is proven, determines which records
+  exist for that place and period and where they are held or online, orders
+  the searches by what each would prove, applies brick-wall strategies (name
+  variants, collateral lines, witnesses and neighbours, substitutes for lost
+  registers), and keeps a research log with negative results so searches are
+  not repeated. Covers France in depth plus Belgium/Flanders and
+  Poland/Prussia, including tracing a migrant's origin from French records.
+  Use whenever the user asks where to look next, which archives or records
+  to search, how to get past a brick wall or a missing ancestor, what a
+  record would prove, how to research Belgian, Flemish, Polish or Prussian
+  ancestors, or wants a research plan, log or report.
 license: MIT
 metadata:
   author: Pierre Thalamy
@@ -55,7 +57,12 @@ to the neighbouring skills when available.
 3. **Map the record universe.** Read `references/records-by-period.md`
    for what was being created at that place and time and what each record
    type proves, then `references/where-to-search.md` for who holds it and
-   how to reach it. Check the jurisdiction history: the parish before 1792,
+   how to reach it. When the line crosses into Belgium or Flanders, or
+   into Poland and the former Prussian provinces, read the matching file
+   in `references/regions/`: each gives the successive regimes and their
+   record systems, the languages and name forms, the portals, the access
+   rules and how to trace the origin of a migrant found in French records.
+   Check the jurisdiction history: the parish before 1792,
    the commune after, mergers and département boundaries, the diocese for
    dispensations, the notarial *étude* and *bureau d'enregistrement*, the
    recruitment office for military registers.
@@ -157,3 +164,15 @@ the ancestor is lost.
 each, godparents compared with the known family's cluster, the 1836 and
 1841 censuses for households. The plan states which finding excludes
 which candidate.
+
+**Example 4: a Polish miner in the Pas-de-Calais.** A 1926 marriage act
+at Lens gives "né à Schrimm, Allemagne". Plan: (1) the foreigner's
+identity card file (AD Pas-de-Calais, 4 M) and any naturalisation dossier
+for the passport data and the birth certificate; (2) Meyers Gazetteer to
+fix Schrimm as Śrem, Posen province, with its Catholic parish and
+Standesamt; (3) the Standesamt birth register at the Archiwum Państwowe w
+Poznaniu via szukajwarchiwach, since births there are past the 100-year
+limit; (4) the Poznań Project for the parents' marriage; (5) if the family
+came through the Ruhr, the Gelsenkirchen or Bottrop Standesamt for
+siblings born there. Each step names the spelling to search: Schrimm and
+Śrem, the German and Polish forms of the given names.
