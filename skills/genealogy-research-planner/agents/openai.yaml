@@ -1,0 +1,14 @@
+interface:
+  display_name: Genealogy Research Planner
+  short_description: Plan the next archival searches and keep a research log
+  default_prompt: Use $genealogy-research-planner to frame my research question, plan
+    which records to search and where, and log the results.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
