@@ -142,11 +142,12 @@ beyond the tree's needs.
 
 | Country | Church registers | Civil registration | Censuses with names | Notes |
 | ------- | ---------------- | ------------------ | ------------------- | ----- |
-| Belgium | 16th c. | 1796 (French model) | 1846+ (population registers 1846 onward, continuous) | Population registers track moves house by house |
+| Belgium | 16th c. | 1796 (French model) | 1846+ (population registers 1846 onward, continuous) | Population registers track moves house by house; see `regions/belgium-flanders.md` |
 | Luxembourg, Netherlands, Rhineland | 16th-17th c. | 1796-1811 | NL population registers 1850+ | Dutch civil records on WieWasWie / Open Archives |
 | Italy | 16th c. (Trent) | 1806-1815 in the north (Napoleonic), 1866 nationally | 1871+ (few name lists online) | *Stati delle anime* household lists |
 | Spain | 16th c. | 1871 | Padrones municipal | Diocesan archives central |
-| Germany | 16th-17th c. | 1874 (1792-1814 west of Rhine) | Few | *Ortsfamilienbücher* compiled |
+| Germany, Prussia | 16th-17th c. | 1874 (1792-1814 west of Rhine) | Few | *Ortsfamilienbücher* compiled; former eastern provinces: see `regions/poland-prussia.md` |
+| Poland | 16th-17th c. | 1808 Napoleonic (Russian partition), 1874 Prussian partition, parish books as civil records in Galicia from 1784 | Population books in Congress Poland | Four regimes, four languages; see `regions/poland-prussia.md` |
 | Switzerland | 16th c. | 1876 | Few | Cantonal; *Familienregister* by commune of origin |
 | England and Wales | 1538; printed forms 1754 (marriages), 1813 | 1837 | 1841-1921 | GRO indexes derivative; order the certificate |
 | Quebec | 1621 (French model, greffe duplicate) | 1994 civil registry; church registers were civil until then | 1666+, 1825+, 1851+ | BAnQ, PRDH, Drouin |
