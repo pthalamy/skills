@@ -20,10 +20,12 @@ ROOT = Path(__file__).resolve().parent.parent
 RT = ROOT / "skills" / "record-transcriber" / "scripts"
 GM = ROOT / "skills" / "gedcom-maintainer" / "scripts"
 RP = ROOT / "skills" / "genealogy-research-planner" / "scripts"
-for p in (RT, GM, RP):
+GR = ROOT / "skills" / "geneanet-researcher" / "scripts"
+for p in (RT, GM, RP, GR):
     sys.path.insert(0, str(p))
 
 import gedcom_lib  # noqa: E402
+import geneanet_findings as gf  # noqa: E402
 import research_log  # noqa: E402
 import transcription_to_gedcom as ttg  # noqa: E402
 import validate_gedcom  # noqa: E402
@@ -217,6 +219,71 @@ class ResearchLog(unittest.TestCase):
         report = self._call(["report", self.log])
         self.assertIn("## Next actions", report)
         self.assertIn("S1 (pending)", report)
+
+
+class GeneanetFindings(unittest.TestCase):
+    EXAMPLE = json.loads((ROOT / "skills" / "geneanet-researcher" / "assets" / "findings-example.json").read_text(encoding="utf-8"))
+
+    def test_search_url_always_has_go(self):
+        url = gf.search_url("DUBOIS", "Jeanne Rosalie", "Bresles", 1850, 1890)
+        self.assertIn("go=1", url)
+        self.assertIn("prenom=Jeanne+Rosalie", url)
+        self.assertIn("place__0__=Bresles", url)
+        self.assertIn("type_periode=between&from=1850&to=1890", url)
+        with self.assertRaises(ValueError):
+            gf.search_url("DUBOIS", size=25)
+
+    def test_person_url_key(self):
+        self.assertEqual(gf.person_url("Abc", "Dubois", "Marie-Thérèse Joseph", 2),
+                         "https://gw.geneanet.org/abc?lang=fr&n=dubois&oc=2&p=marie+therese+joseph")
+
+    def test_robots_snapshot(self):
+        self.assertEqual(gf.robots_verdict("https://gw.geneanet.org/abc?lang=fr&m=A&n=x&p=y")[0], "disallowed")
+        self.assertEqual(gf.robots_verdict("https://gw.geneanet.org/abc?lang=fr&m=N&v=x")[0], "allowed")
+        self.assertEqual(gf.robots_verdict("https://gw.geneanet.org/abc?lang=fr&n=x&p=y")[0], "allowed")
+        self.assertEqual(gf.robots_verdict("https://www.geneanet.org/cercles/view/x/1")[0], "disallowed")
+        self.assertEqual(gf.robots_verdict("https://www.geneanet.org/releves-collaboratifs/view/1/2")[0], "allowed")
+
+    def test_refs_extracts_cote_view_and_labelled_segment(self):
+        ref = gf.extract_refs("Registre Bresles NMD années 1860-1870 côte archives 3E999/4 vue 52/300 - Original", "birth")
+        self.assertEqual(ref["cote"], "3E999/4")
+        self.assertEqual(ref["view"], "52/300")
+        block = "Naissance: Archives Oise, image 52\nUnion: Archives Oise, images 210, 211 et 212"
+        self.assertEqual(gf.extract_refs(block, "birth")["view"], "52")
+        tree = gf.extract_refs("arbre https://gw.geneanet.org/other?lang=fr&n=x&p=y", "birth")
+        self.assertIn("cites", tree)
+        self.assertNotIn("url", tree)
+
+    def test_example_validates_and_reports(self):
+        errors, warnings = gf.check(self.EXAMPLE)
+        self.assertEqual(errors, [])
+        self.assertTrue(any("F6" in w and "names only" in w for w in warnings))
+        report = gf.build_report(self.EXAMPLE)
+        self.assertIn("## Records to open", report)
+        self.assertIn("cote 3E999/4", report)
+        self.assertIn("**Conflict on death:**", report)
+
+    def test_unsourced_with_source_text_is_an_error(self):
+        doc = copy.deepcopy(self.EXAMPLE)
+        doc["findings"][2]["source_verbatim"] = "something"
+        errors, _ = gf.check(doc)
+        self.assertTrue(any("status unsourced" in e for e in errors))
+
+    def test_log_export_is_idempotent(self):
+        d = Path(tempfile.mkdtemp())
+        findings, log = d / "f.json", d / "log.json"
+        findings.write_text(json.dumps(self.EXAMPLE), encoding="utf-8")
+        with redirect_stdout(io.StringIO()):
+            research_log.main(["init", str(log)])
+            research_log.main(["question", str(log), "add", "Find X"])
+            gf.main(["log", str(findings), str(log), "--question", "Q1"])
+            first = len(json.loads(log.read_text())["searches"])
+            gf.main(["log", str(findings), str(log), "--question", "Q1"])
+        data = json.loads(log.read_text())
+        self.assertEqual(len(data["searches"]), first)
+        self.assertTrue(any(s["result"] == "pending" for s in data["searches"]))
+        negatives = [s for s in data["searches"] if s["result"] == "negative"]
+        self.assertTrue(negatives and all(s["scope"] for s in negatives))
 
 
 class CommandLine(unittest.TestCase):
