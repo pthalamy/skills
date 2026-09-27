@@ -1,0 +1,171 @@
+{
+  "subject": "Jeanne Rosalie DUBOIS (1861-1940), Bresles (Oise), and her parents. Fictional example: names, dates, cotes, owners and ids are invented; the shapes are those Geneanet pages show.",
+  "created": "2026-09-27",
+  "updated": "2026-09-27",
+  "persons": [
+    {
+      "id": "P1",
+      "name": "Jeanne Rosalie DUBOIS",
+      "identity": "born about 1861 at Bresles (Oise); married Louis MARTIN at Bresles in 1882; died 1940",
+      "xref": "@I12@"
+    }
+  ],
+  "searches": [
+    {
+      "id": "S1",
+      "date": "2026-09-27",
+      "url": "https://www.geneanet.org/fonds/individus/?go=1&nom=DUBOIS&prenom=Jeanne+Rosalie&place__0__=Bresles&type_periode=between&from=1850&to=1890&size=50",
+      "scope": "Search engine, DUBOIS Jeanne Rosalie, place Bresles, 1850-1890, 1 page of 50 read, all 14 results",
+      "keys": "DUBOIS",
+      "result": "found",
+      "hits": 14
+    },
+    {
+      "id": "S2",
+      "date": "2026-09-27",
+      "url": "https://www.geneanet.org/fonds/individus/?go=1&nom=DUBOY&prenom=Rosalie&size=50",
+      "scope": "Search engine, DUBOY Rosalie, no place, all periods",
+      "keys": "DUBOY",
+      "result": "negative",
+      "hits": 0
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "person": "P1",
+      "fact": "birth",
+      "as_shown": "4 mai 1861 : Naissance - rue de Beauvais - Bresles, 60510, Oise, Hauts-de-France, FRANCE",
+      "date": "4 MAY 1861",
+      "place": "Bresles, Oise",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreea?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreea", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "event",
+      "source_status": "record",
+      "source_verbatim": "Sources: JEANNE ROSALIE DUBOIS COPIE INTEGRALE ACTE DE NAISSANCE - 4 MAY 1861 - <http://archives.oise.fr> - Archives Départementales de l'Oise - Registre Bresles NMD années 1860-1870 côte archives 3E999/4 vue 52/300 - Original",
+      "record_ref": {"archive": "Archives Départementales de l'Oise", "register": "Bresles NMD années 1860-1870", "cote": "3E999/4", "view": "52/300", "url": "http://archives.oise.fr", "act_type": "birth"},
+      "remarks": "The event text also names the declarant (the father, 29, journalier) and two witnesses."
+    },
+    {
+      "id": "F2",
+      "person": "P1",
+      "fact": "birth",
+      "as_shown": "Née le 4 mai 1861 (samedi) - Bresles, Oise, Picardie, France",
+      "date": "4 MAY 1861",
+      "place": "Bresles, Oise",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreeb?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreeb", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "sources-section",
+      "source_status": "record",
+      "source_verbatim": "Naissance: Archives Oise, image 52",
+      "record_ref": {"archive": "Archives Oise", "view": "52"},
+      "remarks": "No register named; image 52 matches F1's view. Notes give the viewer link https://ressources.archives.oise.fr/v2/ad60/visualiseur/registre.html?id=600000000"
+    },
+    {
+      "id": "F3",
+      "person": "P1",
+      "fact": "birth",
+      "as_shown": "Naissance: 1862, Bresles, Oise, France",
+      "date": "1862",
+      "place": "Bresles, Oise",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreec?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreec", "accessed": "2026-09-27", "search": "S1"},
+      "source_status": "unsourced",
+      "remarks": "Headings show neither Sources, Notes nor Événements. The year may come from an age at marriage."
+    },
+    {
+      "id": "F4",
+      "person": "P1",
+      "fact": "birth",
+      "as_shown": "DUBOIS Jeanne Rosalie | Archives : Oise, naissances | Naissance : (entre 1825 et 1875), Bresles, Oise, France",
+      "date": "BET 1825 AND 1875",
+      "place": "Bresles, Oise",
+      "origin": {"kind": "cercle", "url": "https://www.geneanet.org/cercles/view/colexample60n/100001", "label": "Archives : Oise, naissances", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "search-snippet",
+      "source_status": "snippet-only",
+      "remarks": "Association index (collection colexample60n); the detail page is refused by robots.txt."
+    },
+    {
+      "id": "F5",
+      "person": "P1",
+      "fact": "marriage",
+      "as_shown": "Commune: Bresles | Jour: 12 | Mois: 9 | Année: 1882 | Nom époux: MARTIN | Prénoms époux: Louis | Nom épouse: DUBOIS | Prénoms épouse: Jeanne Rosalie",
+      "date": "12 SEP 1882",
+      "place": "Bresles, Oise",
+      "spouse": "Louis MARTIN",
+      "origin": {"kind": "releve", "url": "https://www.geneanet.org/releves-collaboratifs/view/99999/423", "label": "Relevé collaboratif État civil (Mariages) - Bresles, 1802-1902, déposé par examplecontrib, CC-BY-NC-SA 2.0", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "record-fields",
+      "source_status": "record",
+      "source_verbatim": "État civil (Mariages) - Bresles, Oise, France; Jour: 12; Mois: 9; Année: 1882",
+      "remarks": "The project page has no description of the registers indexed (NO SOURCE DESCRIPTION)."
+    },
+    {
+      "id": "F6",
+      "person": "P1",
+      "fact": "marriage",
+      "as_shown": "12 septembre 1882 : Mariage (avec Louis MARTIN) - Bresles, 60510, Oise, Hauts-de-France, FRANCE",
+      "date": "12 SEP 1882",
+      "place": "Bresles, Oise",
+      "spouse": "Louis MARTIN",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreea?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreea", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "event",
+      "source_status": "record",
+      "source_verbatim": "Sources: LOUIS MARTIN JEANNE ROSALIE DUBOIS COPIE INTEGRALE ACTE DE NAISSANCE - 12 SEP 1882 - <http://archives.oise.fr> - Archives Départementales de l'Oise - Registre Bresles NMD années 1881-1890 côte archives 3E999/5 vues 210-211/280 - Original",
+      "record_ref": {"archive": "Archives Départementales de l'Oise", "register": "Bresles NMD années 1881-1890", "cote": "3E999/5", "view": "210-211/280", "url": "http://archives.oise.fr", "act_type": "birth"},
+      "remarks": "The tree labels the source of this marriage 'ACTE DE NAISSANCE'; kept as written. Register, cote and views fit a marriage in 1882."
+    },
+    {
+      "id": "F7",
+      "person": "P1",
+      "fact": "spouse",
+      "as_shown": "Luc MARTIN ca 1858-",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreec?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreec", "accessed": "2026-09-27", "search": "S1"},
+      "source_status": "unsourced",
+      "remarks": "Luc here, Louis in the relevé and in F6."
+    },
+    {
+      "id": "F8",
+      "person": "P1",
+      "fact": "parents",
+      "as_shown": "Parents: Jean Louis DUBOIS (1832-1899); Rosalie LEFEBVRE (1835-1890)",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreeb?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreeb", "accessed": "2026-09-27", "search": "S1"},
+      "source_status": "unsourced",
+      "remarks": "No Personne or Famille source; the birth act in F1 would name the parents."
+    },
+    {
+      "id": "F9",
+      "person": "P1",
+      "fact": "parents",
+      "as_shown": "Parents: Jean Louis DUBOIS 1832-1899; Rosalie LEFEBVRE 1835-1890",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreec?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreec", "accessed": "2026-09-27", "search": "S1"},
+      "source_status": "unsourced",
+      "copy_of": "F8",
+      "remarks": "Same names, dates and unusual place format as F8 on every family member."
+    },
+    {
+      "id": "F10",
+      "person": "P1",
+      "fact": "death",
+      "as_shown": "20 janvier 1940 : Décès - Beauvais, 60000, Oise, Hauts-de-France, FRANCE",
+      "date": "20 JAN 1940",
+      "place": "Beauvais, Oise",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreea?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreea", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "event",
+      "source_status": "record",
+      "source_verbatim": "Sources: JEANNE ROSALIE DUBOIS COPIE INTEGRALE ACTE DE DECES - 20 JAN 1940 - Mairie de Beauvais - 17 - Original",
+      "record_ref": {"archive": "Mairie de Beauvais", "act_type": "death"},
+      "remarks": "'17' is probably the act number; not stated as such."
+    },
+    {
+      "id": "F11",
+      "person": "P1",
+      "fact": "death",
+      "as_shown": "Décédée le 20 janvier 1940 - Bresles, Oise, Picardie, France",
+      "date": "20 JAN 1940",
+      "place": "Bresles, Oise",
+      "origin": {"kind": "tree", "url": "https://gw.geneanet.org/exampletreeb?lang=fr&n=dubois&p=jeanne+rosalie", "owner": "exampletreeb", "accessed": "2026-09-27", "search": "S1"},
+      "source_location": "sources-section",
+      "source_status": "repository",
+      "source_verbatim": "Décès: Archives départementales de l'Oise",
+      "record_ref": {"archive": "Archives départementales de l'Oise"},
+      "remarks": "Place differs from F10 (Beauvais)."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+interface:
+  display_name: Geneanet Researcher
+  short_description: Harvest Geneanet trees and relevés with the verbatim source of every fact
+  default_prompt: Use $geneanet-researcher to search Geneanet for this person and list every
+    fact public trees and relevés give, with the source each one cites, verbatim.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

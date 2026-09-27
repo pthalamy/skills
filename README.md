@@ -10,15 +10,18 @@ Gemini CLI and a couple dozen others. Nothing here is tied to one vendor.
 
 ## Skills
 
-Grouped by the `metadata.category` of each skill. The three genealogy skills
-form a chain: record-transcriber reads a record, gedcom-maintainer puts the
-result into the tree, genealogy-research-planner decides what to look for next.
+Grouped by the `metadata.category` of each skill. The genealogy skills form
+a chain: genealogy-research-planner decides what to look for next,
+geneanet-researcher harvests what public trees and indexes say and which
+record each claim cites, record-transcriber reads the record, and
+gedcom-maintainer puts the result into the tree.
 
 | Category | Skill | What it does |
 | -------- | ----- | ------------ |
 | Genealogy | [gedcom-maintainer](skills/gedcom-maintainer/SKILL.md) | Maintain GEDCOM family trees as an evidence-backed graph: sourced, QUAY-graded edits only, conflicts and hypotheses recorded in notes, Genealogical Proof Standard guidance, plus scripts to validate structure, links, dates and chronology, and to inspect and diff large files. |
 |  | [record-transcriber](skills/record-transcriber/SKILL.md) | Transcribe parish and civil registers, censuses, military rolls and notarial deeds (French, Latin and other European forms) into a literal transcription with uncertainty marks, a schema-validated JSON extraction and GEDCOM citation fragments, with paleography and record-type references. |
 |  | [genealogy-research-planner](skills/genealogy-research-planner/SKILL.md) | Frame a research question, inventory what is proven, map which records exist for the place and period and where they are held, order the searches by what each would prove, apply brick-wall strategies, and keep a research log with negative results, with regional strategies for Belgium/Flanders and Poland/Prussia; a script finds the gaps in a GEDCOM and maintains the log. |
+|  | [geneanet-researcher](skills/geneanet-researcher/SKILL.md) | Search Geneanet's public trees, relevés collaboratifs, association indexes and cemetery surveys for named people with a URL-fetch tool alone, record every fact with the source each page gives verbatim (cote, view, act number, archive, viewer link), flag unsourced facts and copied trees, and produce a validated findings file, a report of the records to open and research-log entries. |
 
 ## Install
 
